@@ -1,0 +1,66 @@
+{
+    "data": {
+      "users": {
+        "edges": [
+          {
+            "node": {
+              "id": "VXNlcnNUeXBlOjE=",
+              "username": "admin",
+              "profile": null
+            }
+          },
+          {
+            "node": {
+              "id": "VXNlcnNUeXBlOjI=",
+              "username": "ajay",
+              "profile": {
+                "id": "UHJvZmlsZVR5cGU6MQ==",
+                "phone": "9898789878",
+                "isNameVisible": true,
+                "isPhoneVisible": true,
+                "gender": "M",
+                "flat": {
+                  "id": "RmxhdFR5cGU6MQ==",
+                  "number": "A101"
+                }
+              }
+            }
+          },
+          {
+            "node": {
+              "id": "VXNlcnNUeXBlOjM=",
+              "username": "ankit",
+              "profile": {
+                "id": "UHJvZmlsZVR5cGU6Mw==",
+                "phone": "89878987",
+                "isNameVisible": true,
+                "isPhoneVisible": true,
+                "gender": "M",
+                "flat": {
+                  "id": "RmxhdFR5cGU6NA==",
+                  "number": "A104"
+                }
+              }
+            }
+          },
+          {
+            "node": {
+              "id": "VXNlcnNUeXBlOjQ=",
+              "username": "aman",
+              "profile": {
+                "id": "UHJvZmlsZVR5cGU6Mg==",
+                "phone": "898787677",
+                "isNameVisible": true,
+                "isPhoneVisible": true,
+                "gender": "M",
+                "flat": {
+                  "id": "RmxhdFR5cGU6Mg==",
+                  "number": "A102"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
