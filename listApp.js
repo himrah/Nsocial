@@ -11,12 +11,40 @@ import ListView from './components/ListPage'
 import DetailView from './components/Detailpage'
 import {Platform, StyleSheet, Text, View,Button} from 'react-native';
 
-import { createSwitchNavigator,createAppContainer ,createStackNavigator,createBottomTabNavigator } from "react-navigation";
+import { createSwitchNavigator,createAppContainer ,createStackNavigator } from "react-navigation";
 import client from './components/GraphQlConnection'
 import { ApolloProvider } from "react-apollo";
-import UserModel from './components/localdatabase/usermodel';
-import { RealmProvider } from 'react-native-realm';
 
+
+
+
+// class ListView extends React.Component{
+//   static navigationOptions = {
+//     title:"List Page"
+//   };
+//   render()
+//   {
+//       console.log(this.props)
+//       return(
+//           <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+//               <Text>List Page</Text>
+//               <Button title="List" onPress={()=>this.props.navigation.navigate("Friends")}/>
+//           </View>
+
+//       )
+//   }
+// }
+
+
+
+// const AppSwitchNavigator = createSwitchNavigator({
+//   listpage:{
+//     screen:ListView
+//   },
+//   detailpage:{
+//     screen:DetailView
+//   }
+// })
 
 class Friends extends React.Component {
   static navigationOptions = {
@@ -44,13 +72,6 @@ const AppNavigator = createStackNavigator({
   initialRouteName:"ListView"
 }
 )
-
-// const TabNavigator = createBottomTabNavigator({
-//   ListView:ListView,
-//   Friends:Friends,
-//   DetailView:DetailView
-// })
-
 
 const AppContainer = createAppContainer(AppNavigator)
 
@@ -84,9 +105,9 @@ const styles = StyleSheet.create({
 class App extends Component {
   render() {
     return (
-        <ApolloProvider client={client}>          
-            <AppContainer/>
-        </ApolloProvider>
+      <ApolloProvider client={client}>
+        <AppContainer/>
+       </ApolloProvider>
     );
   }
 }

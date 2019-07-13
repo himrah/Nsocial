@@ -4,11 +4,41 @@ import gql from 'graphql-tag'
 
 
 
+export const GetUsersByFlats = gql `query GetUsersByFlats{  
+  flats{
+    edges{
+      node{
+        number
+        id
+        flatuserrelationSet{
+          edges{
+            node{
+              id
+              user{
+                username
+                firstName
+                lastName
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`
+
+
+
+
+
+
 export const GetAllUsers = gql `query GetAllUsers{
   users{
     edges{
       node{
         id
+        firstName
+        lastName
         username
         profile{
           id
