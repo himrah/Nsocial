@@ -10,22 +10,22 @@ import {GetAllUsers} from './GraphQl'
 // import {User,InsertUser,GetUsers,CheckExist,queryAllUsers} from './localdatabase/models'
 
 // import {UserModel,UserService} from './localdatabase/usermodel'
-import UserServices from './localdatabase/userservice';
-import UserModel from './localdatabase/usermodel';
+// import UserServices from './localdatabase/userservice';
+// import UserModel from './localdatabase/usermodel';
 
 
-import realm from './localdatabase/models'
+import Realm, {GetUsers,InsertUser} from './localdatabase/models'
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 // import console = require('console');
 // import Realm from 'realm';
-const Realm = require('realm');
-import { connectRealm } from 'react-native-realm';
+// const Realm = require('realm');
+// import { connectRealm } from 'react-native-realm';
 
 
 const UserBlock = ({username,flatNo,mobile,id,props}) => {
     return(
-        <View style={{flex:1,flexDirection:'row',padding:10,height:'auto',borderRadius:10,margin:5,marginBottom:10,backgroundColor:'white',elevation:5}}>
+        <View style={{flex:1,flexDirection:'row',padding:10,height:'auto',borderRadius:10,margin:5,marginBottom:10,backgroundColor:'white'}}>
             <TouchableOpacity>
                 <Icon name="account-circle" size={50} style={{height:50,width:50,borderRadius:50}}/>
             </TouchableOpacity>
@@ -38,7 +38,6 @@ const UserBlock = ({username,flatNo,mobile,id,props}) => {
                                 flatNo:flatNo,
                                 mobile:mobile,
                                 id:id
-                            
                             }
                             
                             )
@@ -48,9 +47,9 @@ const UserBlock = ({username,flatNo,mobile,id,props}) => {
                             </TouchableOpacity>
                         </View>
                     <View>
-                        <TouchableOpacity>
+                        {/* <TouchableOpacity>
                             <Icon name="call" size={30} color="blue" />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                 </View> 
 
@@ -59,11 +58,11 @@ const UserBlock = ({username,flatNo,mobile,id,props}) => {
     )
 }
 
-const databaseOptions = {
-    path: 'realmT4.realm',
-    schema: ['User'],
-    schemaVersion: 0
-  };
+// const databaseOptions = {
+//     path: 'realmT4.realm',
+//     schema: ['User'],
+//     schemaVersion: 0
+//   };
 
 class ListView extends React.Component{
     static navigationOptions =  {
@@ -74,7 +73,7 @@ class ListView extends React.Component{
           super(props);
           this.state={
               list:[],
-              users:null,
+              users:[],
               size:0,
           }
       }
@@ -82,37 +81,58 @@ class ListView extends React.Component{
 
       componentWillMount()
       {
-        // Realm.open(databaseOptions).then(realm => {
-        //     //this.setState({ size: realm.objects(User).length });
-        //   });
+        GetUsers().then((r)=>{
+            this.setState({users:r})
+        }).catch((e)=>console.log("error"+e))
 
-        // this.setState({size:GetUsers.length})
-        // console.log("userLengt",GetUsers.length)
       }
 
       componentWillReceiveProps(nextProps) {
         console.log(nextProps)
 
         let {users,loading}  = nextProps.data
-        // console.log(users.edges)
+
         users.edges.map(user=>{
-            
-                console.log(user.node)
-
-                UserServices.save(new UserModel(
-                        user.node.id,
-                        user.node.firstName,
-                        user.node.lastName,
-                        user.node.username,
-                        // last_login:'null'
-                    ))
-                
-
-            // }
-            // console.log(user.node.id)
+            InsertUser({
+                id:user.node.id,
+                first_name:user.node.firstName,
+                last_name:user.node.lastName,
+                username:user.node.username,
+                last_login:user.node.lastLogin,
+            }).then((r)=>{
+                console.log(r)
+            }).catch((e)=>{
+                console.log("error "+e)
+            })
         })
 
-        this.setState({users:UserServices.findAll()})
+        GetUsers().then((r)=>{
+            // console.log(r)
+            this.setState({users:r})
+        }).catch((e)=>console.log("error"+e))
+
+        
+
+        // console.log(users.edges)
+        // users.edges.map(user=>{
+            
+        //         console.log(user.node)
+
+        //         UserServices.save(new UserModel(
+        //                 user.node.id,
+        //                 user.node.firstName,
+        //                 user.node.lastName,
+        //                 user.node.username,
+        //                 // last_login:'null'
+        //             ))
+                
+
+        //     // }
+        //     // console.log(user.node.id)
+        // })
+
+
+        // this.setState({users:UserServices.findAll()})
         // console.log(GetUsers.length)
 
             // queryAllUsers().then((u)=>{
@@ -141,35 +161,45 @@ class ListView extends React.Component{
         //     console.log(real.path)
         // })
 
-        let {loading,error,users} = this.props.data
+        // let {loading,error,users} = this.props.data
 
             // console.log(UserModel)
         // console.log(UserServices.findAll())
 
-          if(loading)
-          {
-            //   console.log(this.props)
-              return(
+        //   if(loading)
+        //   {
+        //       return(
                 
-                  <Text>loading.....</Text>
-              )
-          }
-          if(error)
-          {
-            return(<Text>Error In Network</Text>)
-          }
+        //           <Text>loading.....</Text>
+        //       )
+        //   }
+        //   if(error)
+        //   {
+        //     return(<Text>Error In Network</Text>)
+        //   }
         //   this.setState({list:users})
 
         
-        console.log(this.state.users[1].first_name)
-        users = users.edges
+        // console.log(this.state.users[1].first_name)
+        // console.log(this.state.users)
+
+        this.state.users.map((user)=>{
+            console.log(user.first_name)
+        })
+
+        // users = users.edges
+        // GetUsers().then((e)=>{
+        //     console.log("us "+e)
+        // }).catch((e)=>console.log("error"+e))
           
           return(
             <ScrollView>
 
                 {/* {users.map(user=>
                     <UserBlock props={this.props} key={user.node.id} id={user.node.id} username = {user.node.username} mobile={user.node.profile?user.node.profile.phone:'none'} flatNo={user.node.profile?user.node.profile.flat.number:'none'}
-                    />)} */}
+                />)} */}
+
+
                 {
                     this.state.users.map(user=>
                         <UserBlock props={this.props} key={user.id} username={user.username} id={user.id} mobile="989" flatNo="101" />

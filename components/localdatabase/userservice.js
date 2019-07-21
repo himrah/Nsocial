@@ -12,14 +12,19 @@ let User = new Realm({
             username:'string?',
         }
     }],
-    // migration:(oldRealm,newRealm)=>{
-    //     if(oldRealm.schemaVersion<1)
-    //     {
-    //         const oldObjects = oldRealm.objects('schema')
-    //         const newObjects = newRealm.objects('schema')
 
-    //     }
-    // }
+    migration:(oldRealm,newRealm)=>{
+        if(oldRealm.schemaVersion<1)
+        {
+            const oldObjects = oldRealm.objects('User')
+            const newObjects = newRealm.objects('User')
+            for(let i=0;i<oldObjects.length;i++)
+            {
+                newObjects[i].name = oldObjects[i]
+            }
+
+        }
+    }
 });
 
 

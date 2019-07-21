@@ -1,4 +1,5 @@
 import Realm from 'realm'
+// import console = require('console');
 
 
 export const User_schema = "User"
@@ -24,10 +25,15 @@ const databaseOption ={
 
 export const InsertUser = user => new Promise((resolve,reject)=>{
     Realm.open(databaseOption).then(realm=>{
-        realm.write(()=>{
-            realm.create(User_schema,user);
-            resolve(user)
-        })
+        if(!realm.objects("User").filtered(`id="${user.id}"`).length)
+        {
+            realm.write(()=>{
+                realm.create(User_schema,user);
+                resolve(user)
+            })
+            resolve("new user")
+        }
+
     }).catch((error)=>reject(error));
 })
 
@@ -35,30 +41,17 @@ export const CheckExist = id => new Promise((resolve,reject)=>{
     Realm.open(databaseOption).then(realm => {
         let ids = realm.objects(User_schema).filtered(`id="${id}"`)
         resolve(ids.length)
-        //this.setState({ size: realm.objects(User).length });
       }).catch((error)=>reject(error));
 })
 
-// export const CheckExist = id =>{
-//     Realm.open(databaseOption).then(realm=>{
-//         let ids = realm.objects(User_schema).filter(`id="${id}"`)
-//         if(ids.length){
-//             // resolve(true)
-//             return true
-//         }
-//         else{
-//             return false
-//         }
-//     })
-// }
 
 
 export const GetUsers =() => new Promise((resolve,reject)=>{
     Realm.open(databaseOption).then(realm => {
 
         // resolve(realm.objects(User_schema))
-        let ids = realm.objects(User_schema)
-        //this.setState({ size: realm.objects(User).length });
+        let ids = Array.from(realm.objects(User_schema))
+        // let ids = realm.objects(User_schema)
         resolve(ids)
     }).catch((error)=>reject(error));
 })
